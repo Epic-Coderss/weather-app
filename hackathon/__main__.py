@@ -1,5 +1,6 @@
 import requests
 import tkinter
+from PIL import Image
 
 KEY = "d4996d8ccefb306921a70705b6779e2a"
 
