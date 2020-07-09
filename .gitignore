@@ -140,3 +140,4 @@ dmypy.json
 .replit
 nohup.out
 .gitnotes.md
+.DS_Store
