@@ -1,8 +1,36 @@
 import requests
 import tkinter
-from PIL import Image
+from PIL import Image as PILImage
+from PIL import ImageTk as PILImageTk
 
 KEY = "d4996d8ccefb306921a70705b6779e2a"
+
+
+class Image(object):
+    def __init__(self, path, dimensions=(None, None)):
+        self._image = PILImage.open(path)
+
+        if tuple(dimensions) != (None, None):
+            self.resize(dimensions)
+
+        self._tk_image = None
+
+    def resize(self, dimensions):
+        self._image = self._image.resize(dimensions)
+
+        try:
+            self._tk_image = PILImageTk.PhotoImage(self._image)
+        except RuntimeError:
+            self._tk_image = None
+
+    def tk_image(self):
+        if self._tk_image is None:
+            try:
+                self._tk_image = PILImageTk.PhotoImage(self._image)
+            except RuntimeError:
+                self._tk_image = None
+
+        return self._tk_image
 
 
 def get_weather(latitude, longitude, units="imperial"):
