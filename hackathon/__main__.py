@@ -1,5 +1,6 @@
-import requests
 import tkinter
+
+import requests
 from PIL import Image as PILImage
 from PIL import ImageTk as PILImageTk
 
