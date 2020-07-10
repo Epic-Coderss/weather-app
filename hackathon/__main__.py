@@ -47,10 +47,46 @@ def get_location():
 
 
 root = tkinter.Tk()
-root.geometry(f"80x80")
-canvas = tkinter.Canvas(root, width=80, height=80)
-canvas.pack(expand=True, fill="both")
+
+
+root.geometry(f"200x200")
+root.overrideredirect(True)
+root.withdraw()
+root.overrideredirect(False)
+root.deiconify()
+root.update()
 root.resizable(False, False)
+
+
+canvas = tkinter.Canvas(root)
+canvas.pack(expand=True, fill="both")
+
+
+x = None
+y = None
+
+def start_move(event):
+    global x, y
+
+    x = event.x
+    y = event.y
+
+def stop_move(event):
+    global x, y
+
+    x = None
+    y = None
+
+def do_move(event):
+    global x, y
+
+    new_x = root.winfo_x() + (event.x - x)
+    new_y = root.winfo_y() + (event.y - y)
+    root.geometry(f"+{new_x}+{new_y}")
+
+canvas.bind("<ButtonPress-1>", start_move)
+canvas.bind("<ButtonRelease-1>", stop_move)
+canvas.bind("<B1-Motion>", do_move)
 
 
 def update():
@@ -58,11 +94,11 @@ def update():
     print(temperature)
 
     if 70 <= temperature <= 80:
-        canvas.create_rectangle(0, 0, 80, 80, fill="green")
+        canvas.create_rectangle(0, 0, 200, 200, fill="green")
     elif 65 <= temperature <= 85:
-        canvas.create_rectangle(0, 0, 80, 80, fill="yellow")
+        canvas.create_rectangle(0, 0, 200, 200, fill="yellow")
     else:
-        canvas.create_rectangle(0, 0, 80, 80, fill="red")
+        canvas.create_rectangle(0, 0, 200, 200, fill="red")
 
     root.after(2000, update)
 
