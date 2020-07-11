@@ -33,7 +33,7 @@ class Image(object):
 
         return self._tk_image
     
-image = Image("/Users/shriraj/Desktop/sunny.png")
+image = Image("/Users/shriraj/Documents/GitHub/PKSDKF/hackathon/Picture/Show weather in Bear.png")
 image.resize((200, 200))
 
 
