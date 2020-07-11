@@ -105,9 +105,9 @@ def update():
     else:
         canvas.create_rectangle(0, 0, 200, 200, fill="red")
 
-    root.after(2000, update)
+    root.after(60000, update)
 
 
 update()
-root.after(2000, update)
+root.after(60000, update)
 root.mainloop()
