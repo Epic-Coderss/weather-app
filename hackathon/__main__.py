@@ -32,6 +32,9 @@ class Image(object):
                 self._tk_image = None
 
         return self._tk_image
+    
+image = Image("/Users/shriraj/Desktop/sunny.png")
+image.resize((200, 200))
 
 
 def get_weather(latitude, longitude, units="imperial"):
@@ -104,6 +107,8 @@ def update():
         canvas.create_rectangle(0, 0, 200, 200, fill="yellow")
     else:
         canvas.create_rectangle(0, 0, 200, 200, fill="red")
+
+    canvas.create_image(0, 0, image=image.tk_image(), anchor="nw")
 
     root.after(60000, update)
 
