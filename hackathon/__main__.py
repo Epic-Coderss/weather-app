@@ -1,3 +1,4 @@
+import os
 import tkinter
 
 import requests
@@ -32,8 +33,17 @@ class Image(object):
                 self._tk_image = None
 
         return self._tk_image
-    
-image = Image("/Users/shriraj/Documents/GitHub/PKSDKF/hackathon/Picture/Show weather in Bear.png")
+
+
+image = Image(
+    os.path.sep.join(
+        (
+            os.path.dirname(os.path.abspath(__file__)),
+            "Picture",
+            "Show weather in Bear.png",
+        )
+    )
+)
 image.resize((200, 200))
 
 
@@ -65,34 +75,9 @@ canvas = tkinter.Canvas(root)
 canvas.pack(expand=True, fill="both")
 
 
-# x = None
-# y = None
-
-# def start_move(event):
-#     global x, y
-
-#     x = event.x
-#     y = event.y
-
-# def stop_move(event):
-#     global x, y
-
-#     x = None
-#     y = None
-
-# def do_move(event):
-#     global x, y
-
-#     new_x = root.winfo_x() + (event.x - x)
-#     new_y = root.winfo_y() + (event.y - y)
-#     root.geometry(f"+{new_x}+{new_y}")
-
-# canvas.bind("<ButtonPress-1>", start_move)
-# canvas.bind("<ButtonRelease-1>", stop_move)
-# canvas.bind("<B1-Motion>", do_move)
-
 def move_window(event):
     root.geometry(f"+{event.x_root}+{event.y_root}")
+
 
 canvas.bind("<B1-Motion>", move_window)
 
