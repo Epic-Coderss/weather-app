@@ -1,12 +1,9 @@
 import os
 from tkinter import Canvas, Tk
-import random
 
-r= random.randint(255)
-b= random.randint(255)
-g= random.randint(255)
-
-rgb=(r,b,g)
+import requests
+from PIL import Image as PILImage
+from PIL import ImageTk as PILImageTk
 
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
 
