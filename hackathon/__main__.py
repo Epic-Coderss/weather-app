@@ -5,7 +5,6 @@ import requests
 from PIL import Image as PILImage
 from PIL import ImageTk as PILImageTk
 
-
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
 
 RED = "#FF4136"
