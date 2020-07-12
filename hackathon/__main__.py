@@ -1,11 +1,27 @@
 import os
-import tkinter
+from tkinter import Canvas, Tk
 
 import requests
 from PIL import Image as PILImage
 from PIL import ImageTk as PILImageTk
 
 KEY = "d4996d8ccefb306921a70705b6779e2a"
+
+
+def weather(latitude, longitude, units="imperial"):
+    result = requests.get(
+        f"""https://api.openweathermap.org/data/2.5/weather?lat={
+            latitude
+        }&lon={longitude}&appid={KEY}&units={units}"""
+    ).json()
+
+    return {"temperature": result["main"]["temp"]}
+
+
+def coordinates():
+    result = requests.get("https://ipinfo.io/").json()["loc"].split(",")
+
+    return float(result[0]), float(result[1])
 
 
 class Image(object):
@@ -35,68 +51,56 @@ class Image(object):
         return self._tk_image
 
 
-image = Image(
-    os.path.sep.join(
-        (
-            os.path.dirname(os.path.abspath(__file__)),
-            "Picture",
-            "Show weather in Bear.png",
+class App(object):
+    def __init__(self, dimensions=(200, 200)):
+        self._window = Tk()
+        self._dimensions = dimensions
+
+        self._window.geometry(f"{dimensions[0]}x{dimensions[1]}")
+        self._window.resizable(False, False)
+
+        self._canvas = Canvas(self._window)
+        self._canvas.pack(expand=True, fill="both")
+
+        self._image = Image(
+            os.path.sep.join(
+                (
+                    os.path.dirname(os.path.abspath(__file__)),
+                    "Picture",
+                    "Show weather in Bear.png",
+                )
+            )
         )
-    )
-)
-image.resize((200, 200))
+        self._image.resize(self._dimensions)
+
+        self._milliseconds = 60000
+
+        self._update()
+        self._window.mainloop()
+
+    def _update(self):
+        temperature = weather(*coordinates())["temperature"]
+        self._canvas.delete("all")
+
+        if 70 <= temperature <= 80:
+            self._canvas.create_rectangle(0, 0, *self._dimensions, fill="green")
+        elif 65 <= temperature <= 85:
+            self._canvas.create_rectangle(
+                0, 0, *self._dimensions, fill="yellow"
+            )
+        else:
+            self._canvas.create_rectangle(0, 0, *self._dimensions, fill="red")
+
+        # image
+        self._canvas.create_image(
+            0, 0, image=self._image.tk_image(), anchor="nw"
+        )
+
+        # emoji
+        # canvas.create_text(self.dimensions[0] / 2, self.dimensions[1] / 2, text="☀️", font=('Helvetica', self.dimensions[1]))
+
+        self._window.after(self._milliseconds, self._update)
 
 
-def get_weather(latitude, longitude, units="imperial"):
-    return requests.get(
-        f"""https://api.openweathermap.org/data/2.5/weather?lat={
-            latitude
-        }&lon={longitude}&appid={KEY}&units={units}"""
-    ).json()
-
-
-def get_location():
-    return requests.get("https://ipinfo.io/").json()["loc"].split(",")
-
-
-root = tkinter.Tk()
-
-
-root.geometry(f"200x200")
-root.resizable(False, False)
-
-
-canvas = tkinter.Canvas(root)
-canvas.pack(expand=True, fill="both")
-
-
-def move_window(event):
-    root.geometry(f"+{event.x_root}+{event.y_root}")
-
-
-canvas.bind("<B1-Motion>", move_window)
-
-
-def update():
-    temperature = float(get_weather(*get_location())["main"]["temp"])
-    print(temperature)
-
-    if 70 <= temperature <= 80:
-        canvas.create_rectangle(0, 0, 200, 200, fill="green")
-    elif 65 <= temperature <= 85:
-        canvas.create_rectangle(0, 0, 200, 200, fill="yellow")
-    else:
-        canvas.create_rectangle(0, 0, 200, 200, fill="red")
-
-    # image
-    # canvas.create_image(0, 0, image=image.tk_image(), anchor="nw")
-
-    # emoji
-    canvas.create_text(100, 100, text="☀️", font=('Helvetica', '200'))
-
-    root.after(60000, update)
-
-
-update()
-root.after(60000, update)
-root.mainloop()
+if __name__ == "__main__":
+    app = App()
