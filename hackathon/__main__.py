@@ -97,7 +97,12 @@ class App(object):
         )
 
         # emoji
-        # canvas.create_text(self.dimensions[0] / 2, self.dimensions[1] / 2, text="☀️", font=('Helvetica', self.dimensions[1]))
+        # canvas.create_text(
+        #     self.dimensions[0] / 2,
+        #     self.dimensions[1] / 2,
+        #     text="☀️",
+        #     font=("Helvetica", self.dimensions[1]),
+        # )
 
         self._window.after(self._milliseconds, self._update)
 
