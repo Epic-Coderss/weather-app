@@ -10,7 +10,7 @@ r= random.randint(255)
 b= random.randint(255)
 g= random.randint(255)
 
-rgb=(r,b,g)
+rgb=(r,b,g) 
 
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
 
