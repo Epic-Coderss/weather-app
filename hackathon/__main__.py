@@ -85,12 +85,13 @@ class App(object):
         self._image.resize(self._dimensions)
 
         self._milliseconds = 60000
+        self._coordinates = coordinates()
 
         self._update()
         self._window.mainloop()
 
     def _update(self):
-        temperature = weather(*coordinates())["temperature"]
+        temperature = weather(*self._coordinates)["temperature"]
         self._canvas.delete("all")
 
         if 70 <= temperature <= 80:
