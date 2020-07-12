@@ -63,11 +63,6 @@ root = tkinter.Tk()
 
 
 root.geometry(f"200x200")
-root.overrideredirect(True)
-root.withdraw()
-root.overrideredirect(False)
-root.deiconify()
-root.update()
 root.resizable(False, False)
 
 
@@ -93,7 +88,11 @@ def update():
     else:
         canvas.create_rectangle(0, 0, 200, 200, fill="red")
 
-    canvas.create_image(0, 0, image=image.tk_image(), anchor="nw")
+    # image
+    # canvas.create_image(0, 0, image=image.tk_image(), anchor="nw")
+
+    # emoji
+    canvas.create_text(100, 100, text="☀️", font=('Helvetica', '200'))
 
     root.after(60000, update)
 
