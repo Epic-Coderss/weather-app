@@ -5,14 +5,18 @@ import requests
 from PIL import Image as PILImage
 from PIL import ImageTk as PILImageTk
 
-KEY = "d4996d8ccefb306921a70705b6779e2a"
+WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
+
+RED = "#FF4136"
+GREEN = "#2ECC40"
+YELLOW = "#FFDC00"
 
 
 def weather(latitude, longitude, units="imperial"):
     result = requests.get(
         f"""https://api.openweathermap.org/data/2.5/weather?lat={
             latitude
-        }&lon={longitude}&appid={KEY}&units={units}"""
+        }&lon={longitude}&appid={WEATHER_KEY}&units={units}"""
     ).json()
 
     return {"temperature": result["main"]["temp"]}
