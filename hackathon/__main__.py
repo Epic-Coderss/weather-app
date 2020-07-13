@@ -16,11 +16,10 @@ def weather(latitude, longitude, units="imperial"):
     result = requests.get(
         f"""https://api.openweathermap.org/data/2.5/weather?lat={
             latitude
-        }&lon={longitude}&appid={WEATHER_KEY}&units={units}"""
+        }&lon={longitude}&appid={WEATHER_KEY}&units={units}"c"""
     ).json()
 
-    return {"temperature": result["main"]["temp"]}
-
+    return {"temperature": result["main"]["temp"], "weather": result["weather"]["id"]["main"]["icon"]}
 
 def coordinates():
     result = requests.get("https://ipinfo.io/").json()["loc"].split(",")
