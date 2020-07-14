@@ -1,5 +1,5 @@
 import os
-from tkinter import Canvas, Tk, Label
+from tkinter import Canvas, Tk
 
 import requests
 from PIL import Image as PILImage
@@ -61,21 +61,10 @@ class Image(object):
 
         return self._tk_image
 
-# def get_icon_data(self):
-#         icon_id = self.json['weather'][0]['icon']
+# def get_icon_data(self):        
 #         url = 'http://openweathermap.org/img/wn/{icon}.png'.format(icon=icon_id)
 #         response = requests.get(url, stream=True)
 #         return base64.encodebytes(response.raw.read())
-
-# class OWIconLabel(Tk.Label):
-#     def __init__(self, parent, **kwargs):
-#         self.Tk.Label = Tk.Label
-#         weather_icon = kwargs.pop('weather_icon', None)
-#         if weather_icon is not None:
-#             self.photo = tk.PhotoImage(data=weather_icon)
-#             kwargs['image'] = self.photo
-
-#        super().__init__(parent, **kwargs)
 
 class App(object):
     def __init__(self, dimensions=(200, 200)):
@@ -118,34 +107,7 @@ class App(object):
         else:
             self._canvas.create_rectangle(0, 0, *self._dimensions, fill="red")
 
-        # image
-# class App(tk.Tk):
-#     def __init__(self):
-#         super().__init__()
-#         self.geometry("220x120+0+0")
-#         self.configure(bg='black')
-
-#         owm = OpenWeatherMap()
-#         owm.get_city('karachi')
-
-#         temperature = owm.get('temp')
-
-#         temp_icon = OWIconLabel(self, weather_icon=owm.get_icon_data())
-#         temp_icon.grid(row=0, column=0)
-
-#         self.temp = tk.Label(self,
-#                              text='{} deg celcius'.format(temperature),
-#                              font=("Helvetica", 15), bg='black', fg='white')
-#         self.temp.grid(row=1, column=0)
-
-
-        # emoji
-        # canvas.create_text(
-        #     self.dimensions[0] / 2,
-        #     self.dimensions[1] / 2,
-        #     text="☀️",
-        #     font=("Helvetica", self.dimensions[1]),
-        # )
+# image
 
         self._window.after(self._milliseconds, self._update)
 
