@@ -1,9 +1,16 @@
 import os
-from tkinter import Canvas, Tk
+from tkinter import Canvas, Tk, Label
 
 import requests
 from PIL import Image as PILImage
 from PIL import ImageTk as PILImageTk
+import random
+
+r= random.randint(255)
+b= random.randint(255)
+g= random.randint(255)
+
+rgb=(r,b,g) 
 
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
 
@@ -16,15 +23,16 @@ def weather(latitude, longitude, units="imperial"):
     result = requests.get(
         f"""https://api.openweathermap.org/data/2.5/weather?lat={
             latitude
-        }&lon={longitude}&appid={WEATHER_KEY}&units={units}"c"""
+        }&lon={longitude}&appid={WEATHER_KEY}&units={units}"""
     ).json()
 
-    return {"temperature": result["main"]["temp"], "weather": result["weather"]["id"]["main"]["icon"]}
+    return {"temperature": result["main"]["temp"]}
 
 def coordinates():
     result = requests.get("https://ipinfo.io/").json()["loc"].split(",")
 
     return float(result[0]), float(result[1])
+
 
 
 class Image(object):
@@ -53,6 +61,21 @@ class Image(object):
 
         return self._tk_image
 
+# def get_icon_data(self):
+#         icon_id = self.json['weather'][0]['icon']
+#         url = 'http://openweathermap.org/img/wn/{icon}.png'.format(icon=icon_id)
+#         response = requests.get(url, stream=True)
+#         return base64.encodebytes(response.raw.read())
+
+# class OWIconLabel(Tk.Label):
+#     def __init__(self, parent, **kwargs):
+#         self.Tk.Label = Tk.Label
+#         weather_icon = kwargs.pop('weather_icon', None)
+#         if weather_icon is not None:
+#             self.photo = tk.PhotoImage(data=weather_icon)
+#             kwargs['image'] = self.photo
+
+#         super().__init__(parent, **kwargs)
 
 class App(object):
     def __init__(self, dimensions=(200, 200)):
@@ -96,9 +119,25 @@ class App(object):
             self._canvas.create_rectangle(0, 0, *self._dimensions, fill="red")
 
         # image
-        self._canvas.create_image(
-            0, 0, image=self._image.tk_image(), anchor="nw"
-        )
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("220x120+0+0")
+        self.configure(bg='black')
+
+        owm = OpenWeatherMap()
+        owm.get_city('karachi')
+
+        temperature = owm.get('temp')
+
+        temp_icon = OWIconLabel(self, weather_icon=owm.get_icon_data())
+        temp_icon.grid(row=0, column=0)
+
+        self.temp = tk.Label(self,
+                             text='{} deg celcius'.format(temperature),
+                             font=("Helvetica", 15), bg='black', fg='white')
+        self.temp.grid(row=1, column=0)
+
 
         # emoji
         # canvas.create_text(
