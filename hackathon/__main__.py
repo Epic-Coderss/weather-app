@@ -75,7 +75,7 @@ class Image(object):
 #             self.photo = tk.PhotoImage(data=weather_icon)
 #             kwargs['image'] = self.photo
 
-        super().__init__(parent, **kwargs)
+#        super().__init__(parent, **kwargs)
 
 class App(object):
     def __init__(self, dimensions=(200, 200)):
