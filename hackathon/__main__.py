@@ -75,7 +75,7 @@ class Image(object):
 #             self.photo = tk.PhotoImage(data=weather_icon)
 #             kwargs['image'] = self.photo
 
-#         super().__init__(parent, **kwargs)
+        super().__init__(parent, **kwargs)
 
 class App(object):
     def __init__(self, dimensions=(200, 200)):
@@ -119,24 +119,24 @@ class App(object):
             self._canvas.create_rectangle(0, 0, *self._dimensions, fill="red")
 
         # image
-class App(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.geometry("220x120+0+0")
-        self.configure(bg='black')
+# class App(tk.Tk):
+#     def __init__(self):
+#         super().__init__()
+#         self.geometry("220x120+0+0")
+#         self.configure(bg='black')
 
-        owm = OpenWeatherMap()
-        owm.get_city('karachi')
+#         owm = OpenWeatherMap()
+#         owm.get_city('karachi')
 
-        temperature = owm.get('temp')
+#         temperature = owm.get('temp')
 
-        temp_icon = OWIconLabel(self, weather_icon=owm.get_icon_data())
-        temp_icon.grid(row=0, column=0)
+#         temp_icon = OWIconLabel(self, weather_icon=owm.get_icon_data())
+#         temp_icon.grid(row=0, column=0)
 
-        self.temp = tk.Label(self,
-                             text='{} deg celcius'.format(temperature),
-                             font=("Helvetica", 15), bg='black', fg='white')
-        self.temp.grid(row=1, column=0)
+#         self.temp = tk.Label(self,
+#                              text='{} deg celcius'.format(temperature),
+#                              font=("Helvetica", 15), bg='black', fg='white')
+#         self.temp.grid(row=1, column=0)
 
 
         # emoji
