@@ -26,7 +26,7 @@ def weather(latitude, longitude, units="imperial"):
         }&lon={longitude}&appid={WEATHER_KEY}&units={units}"""
     ).json()
 
-    return {"temperature": result["main"]["temp"]}
+    return {"temperature": result["main"]["temp"], "icon": result['weather'][0]['icon']}
 
 def coordinates():
     result = requests.get("https://ipinfo.io/").json()["loc"].split(",")
