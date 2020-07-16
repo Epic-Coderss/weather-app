@@ -38,7 +38,7 @@ class App(tk.Tk):
         self.geometry("220x120+0+0")
 
         owm = OpenWeatherMap()
-        owm.get_city('karachi')
+        owm.get_city('Fremont, USA')
 
         temperature = owm.get('temp')
 
