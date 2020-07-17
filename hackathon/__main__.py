@@ -4,13 +4,6 @@ from tkinter import Canvas, Tk
 import requests
 from PIL import Image as PILImage
 from PIL import ImageTk as PILImageTk
-import random
-
-r= random.randint(255)
-b= random.randint(255)
-g= random.randint(255)
-
-rgb=(r,b,g) 
 
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
 
@@ -61,7 +54,7 @@ class Image(object):
 
         return self._tk_image
 
-# def get_icon_data(self):        
+# def get_icon_data(self):
 #         url = 'http://openweathermap.org/img/wn/{icon}.png'.format(icon=icon_id)
 #         response = requests.get(url, stream=True)
 #         return base64.encodebytes(response.raw.read())
