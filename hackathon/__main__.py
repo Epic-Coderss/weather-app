@@ -3,7 +3,7 @@ from tkinter import Canvas, Tk
 
 import requests
 from PIL import Image as PILImage
-from PIL import ImageTk as PILImageTk
+from PIL import ImageTk as PILImageTk 
 
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
 
@@ -53,11 +53,6 @@ class Image(object):
                 self._tk_image = None
 
         return self._tk_image
-
-# def get_icon_data(self):
-#         url = 'http://openweathermap.org/img/wn/{icon}.png'.format(icon=icon_id)
-#         response = requests.get(url, stream=True)
-#         return base64.encodebytes(response.raw.read())
 
 class App(object):
     def __init__(self, dimensions=(200, 200)):
