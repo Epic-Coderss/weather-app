@@ -75,7 +75,7 @@ class App(object):
             (blue - low_temperature) / (high_temperature - low_temperature)
         )
 
-        final_hex = rgb2hex((red, green, blue))
+        final_hex = rgb2hex(red, green, blue)
         icon_size = min(self._dimensions)
 
         # use property to prevent garbage collection of icon before display
