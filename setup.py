@@ -7,7 +7,7 @@ config = {
     "url": "https://github.com/HereIsKevin/hackathon",
     "download_url": "https://github.com/HereIsKevin/hackathon",
     "version": "0.1.0",
-    "install_requires": ["requests", "pillow", "matplotlib", "numpy"],
+    "install_requires": ["requests", "pillow", "matplotlib"],
     "packages": ["hackathon"],
     "scripts": [],
     "name": "hackathon",
