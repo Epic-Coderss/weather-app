@@ -101,17 +101,13 @@ from tkinter import Canvas, Tk
 import requests
 from PIL import Image as PILImage
 from PIL import ImageTk as PILImageTk
-from colors import rgb, hex
+import matplotlib.colors as colors
+import numpy as np
 
-RED = "#FF4136"
-GREEN = "#2ECC40"
-YELLOW = "#FFDC00"
+RED = [255,0,0]
+GREEN = [0,255,0]
+BLUE = [0,0,255]
 
-# rgb to hex
-str(rgb(123, 245, 190).hex)
-
-# hex to rgb
-red = tuple(hex(red).rgb)
 
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
 
@@ -119,16 +115,15 @@ def weather(latitude, longitude, units="imperial"):
     result = requests.get(
         f"""https://api.openweathermap.org/data/2.5/weather?lat={
             latitude
-        }&lon={longitude}&appid={WEATHER_KEY}&units={units}"""
+        }&lon={longitude}&appid={WEATHER_KEY}&units={units}"c"""
     ).json()
 
-    return {"temperature": result["main"]["temp"], "icon": result['weather'][0]['icon']}
+    return {"temperature": result["main"]["temp"]}
 
 def coordinates():
     result = requests.get("https://ipinfo.io/").json()["loc"].split(",")
 
     return float(result[0]), float(result[1])
-
 
 
 class Image(object):
@@ -157,13 +152,9 @@ class Image(object):
 
         return self._tk_image
 
-# def get_icon_data(self):
-#         url = 'http://openweathermap.org/img/wn/{icon}.png'.format(icon=icon_id)
-#         response = requests.get(url, stream=True)
-#         return base64.encodebytes(response.raw.read())
 
 class App(object):
-    def __init__(self, dimensions=(200, 200)):
+    def __init__(self,dimensions=(200, 200)):
         self._window = Tk()
         self._dimensions = dimensions
 
@@ -189,21 +180,50 @@ class App(object):
 
         self._update()
         self._window.mainloop()
+    #def color(self):
+        
 
     def _update(self):
         temperature = weather(*self._coordinates)["temperature"]
-        self._canvas.delete("all")
+        low_temp = 55
+        high_temp = 350
+        r = temperature
+        g = 0
+        b = temperature
 
+        r = max(min(high_temp, temperature), low_temp) # makes sure that r is within low_temp - high_temp range
+        b = max(min(high_temp, temperature), low_temp) # makes sure that r is within low_temp - high_temp range
+        r = (r - low_temp) / (high_temp - low_temp)
+        b = 1.0 - ((b - low_temp) / (high_temp - low_temp))
+
+        hex = colors.rgb2hex((r, g, b))
+        print(str(r) + ' ' + str(g) + ' ' + str(b) + ' ')
+        print(hex)
+        print(temperature)
+        self._canvas.delete("all")
         if 70 <= temperature <= 80:
-            self._canvas.create_rectangle(0, 0, *self._dimensions, __file__ll="green")
+            #if temperature > 70/;kin;l,j 
+                #r += temperature
+            self._canvas.create_rectangle(0, 0, *self._dimensions, fill=hex)
         elif 65 <= temperature <= 85:
             self._canvas.create_rectangle(
-                0, 0, *self._dimensions, fill="yellow"
+                0, 0, *self._dimensions, fill=hex
             )
         else:
-            self._canvas.create_rectangle(0, 0, *self._dimensions, fill="red")
+           self._canvas.create_rectangle(0, 0, *self._dimensions, fill=hex)
 
-# image
+        #image
+        self._canvas.create_image(
+            0, 0, image=self._image.tk_image(), anchor="nw"
+        )
+
+        # emoji
+        # canvas.create_text(
+        #     self.dimensions[0] / 2,
+        #     self.dimensions[1] / 2,
+        #     text="☀️",
+        #     font=("Helvetica", self.dimensions[1]),
+        # )
 
         self._window.after(self._milliseconds, self._update)
 
