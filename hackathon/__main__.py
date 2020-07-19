@@ -2,10 +2,13 @@ from io import BytesIO
 from tkinter import Canvas, Tk
 
 import requests
-from matplotlib import colors
 from PIL import Image, ImageTk
 
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
+
+
+def rgb2hex(red, green, blue):
+    return f"#{red:02x}{green:02x}{blue:02x}"
 
 
 def weather(latitude, longitude, units="imperial"):
@@ -72,7 +75,7 @@ class App(object):
             (blue - low_temperature) / (high_temperature - low_temperature)
         )
 
-        final_hex = colors.rgb2hex((red, green, blue))
+        final_hex = rgb2hex((red, green, blue))
         icon_size = min(self._dimensions)
 
         # use property to prevent garbage collection of icon before display
