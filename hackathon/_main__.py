@@ -4,12 +4,14 @@ import tkinter as tk
 import requests
 from PIL import Image, ImageTk
 from io import BytesIO
+import matplotlib.colors as colors
+import numpy as np
 
 WEATHER_KEY = "d4996d8ccefb306921a70705b6779e2a"
 
-RED = "#FF4136"
-GREEN = "#2ECC40"
-YELLOW = "#FFDC00"
+RED = [255,0,0]
+GREEN = [0,255,0]
+BLUE = [0,0,255]
 
 class OpenWeatherMap:
     APPID = 'c73d9cdb31fd6a386bee66158b116cd0'
@@ -75,16 +77,31 @@ class App(object):
 
     def _update(self, img):
         temperature = weather(*self._coordinates)["temperature"]
+        low_temp = 55
+        high_temp = 350
+        r = temperature
+        g = 0
+        b = temperature
+
+        r = max(min(high_temp, temperature), low_temp) # makes sure that r is within low_temp - high_temp range
+        b = max(min(high_temp, temperature), low_temp) # makes sure that r is within low_temp - high_temp range
+        r = (r - low_temp) / (high_temp - low_temp)
+        b = 1.0 - ((b - low_temp) / (high_temp - low_temp))
+
+        hex = colors.rgb2hex((r, g, b))
+        print(str(r) + ' ' + str(g) + ' ' + str(b) + ' ')
+        print(hex)
+        print(temperature)
         self._canvas.delete("all")
 
         if 70 <= temperature <= 80:
-            self._canvas.create_rectangle(0, 0, *self._dimensions, fill="green")
+            self._canvas.create_rectangle(0, 0, *self._dimensions, fill=hex)
         elif 65 <= temperature <= 85:
             self._canvas.create_rectangle(
-                0, 0, *self._dimensions, fill="yellow"
+                0, 0, *self._dimensions, fill=hex
             )
         else:
-            self._canvas.create_rectangle(0, 0, *self._dimensions, fill="red")
+            self._canvas.create_rectangle(0, 0, *self._dimensions, fill=hex)
         xpos = 100 # this controls where the image appears on canvas in respect to X axis
         ypos = 100 # this controls where the image appears on canvas in respect to Y axis
         self._canvas.create_image((xpos, ypos), image=img, anchor='nw') # after canvas' color was updated we are drawing the image on it
