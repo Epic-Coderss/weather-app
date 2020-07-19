@@ -61,7 +61,7 @@ class App(object):
         self._canvas.pack(expand=True, fill="both")
         
         owm = OpenWeatherMap()
-        owm.get_city('europe')
+        owm.get_city('Fremont,CA,USA')
 
         temperature = owm.get('temp') # this doesn't do anything right now but I left it
         
@@ -102,11 +102,9 @@ class App(object):
             )
         else:
             self._canvas.create_rectangle(0, 0, *self._dimensions, fill=hex)
-        xpos = 100 # this controls where the image appears on canvas in respect to X axis
-        ypos = 100 # this controls where the image appears on canvas in respect to Y axis
+        xpos = 70 # this controls where the image appears on canvas in respect to X axis
+        ypos = 80 # this controls where the image appears on canvas in respect to Y axis
         self._canvas.create_image((xpos, ypos), image=img, anchor='nw') # after canvas' color was updated we are drawing the image on it
-
-# image
 
         self._window.after(self._milliseconds, self._update)
 
