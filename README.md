@@ -1,3 +1,3 @@
-# hackathon
+# weather app
 
-Work in progress...
+#version 1 launched
